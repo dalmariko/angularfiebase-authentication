@@ -16,9 +16,15 @@
 
   <span>Or register with servises</span>
 
-  <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-    <i class="fab fa-google-plus-g"></i>
-  </button>
+  <div>
+    <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+      <i class="fab fa-google-plus-g"></i>
+    </button>
+
+    <button type="button" class="btn googleBtn" (click)="authService.GithubAuth()">
+      <i class="fab fa-github"></i>
+    </button>
+  </div>
 
   <button class="btn btn-lg  btn-outline-secondary" type="submit" routerLink="/forgot-password">Forgot Password?
   </button>
