@@ -66,25 +66,35 @@ export class AuthService {
 
   // Sign in with Github
   GithubAuth() {
-    return this.AuthLogin(new auth.GithubAuthProvider());
+    return this.afAuth.auth.signInWithRedirect(new auth.GithubAuthProvider()).then(()=>{
+      return this.afAuth.auth.getRedirectResult();
+    })
+      .then((result) => {
+        this.SetUserDataGithub(result.user);
+        this.ngZone.run(() => {
+          this.router.navigate(['dashboard']);
+        });
+      }).catch((error) => {
+        window.alert(error);
+      });
+
   }
 
 // Auth logic to run auth providers
   AuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
+    return this.afAuth.auth.signInWithRedirect(provider).then(()=>{
+      return this.afAuth.auth.getRedirectResult();
+    })
       .then((result) => {
+        this.SetUserData(result.user);
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
         });
-        this.SetUserData(result.user);
       }).catch((error) => {
         window.alert(error);
       });
   }
 
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
@@ -93,6 +103,20 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
+    };
+    return userRef.set(userData, {
+      merge: true
+    });
+  }
+
+  SetUserDataGithub(user) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: true
     };
     return userRef.set(userData, {
       merge: true
