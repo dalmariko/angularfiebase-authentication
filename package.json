@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build angularfiebase-authentication",
-    "deploy": "ng build angularfiebase-authentication --es5-browser-support --optimization --vendor-chunk --prod --base-href https://dalmariko.github.io/angularfiebase-authentication/",
+    "build": "ng build angularfiebase-authentication --es5-browser-support --optimization --vendor-chunk --prod --base-href https://dalmariko.github.io/angularfiebase-authentication/",
+    "deploy": "ngh -b deploy  -d=dist/angularfiebase-authentication ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
