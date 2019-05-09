@@ -8,10 +8,8 @@ import {Router} from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-  userData:any;
-  // Save logged in user data
+  userData: any; // Save logged in user data
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -22,11 +20,12 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.userData=JSON.parse(localStorage.getItem('user'));
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
-        this.userData=JSON.parse(localStorage.getItem('user'));
+        JSON.parse(localStorage.getItem('user'));
       }
     });
   }
@@ -69,17 +68,20 @@ export class AuthService {
 
 // Auth logic to run auth providers
   AuthLogin(provider) {
-    return this.afAuth.auth.signInWithRedirect(provider).then(() => {
-      return this.afAuth.auth.getRedirectResult();
-    })
+    return this.afAuth.auth.signInWithPopup(provider)
       .then((result) => {
+        this.ngZone.run(() => {
+          this.router.navigate(['dashboard']);
+        });
         this.SetUserData(result.user);
-        this.router.navigate(['dashboard']);
       }).catch((error) => {
         window.alert(error);
       });
   }
 
+  /* Setting up user data when sign in with username/password,
+  sign up with username/password and sign in with social auth
+  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
@@ -94,6 +96,12 @@ export class AuthService {
     });
   }
 
+  SendVerificationMail() {
+    return this.afAuth.auth.currentUser.sendEmailVerification().then(() => {
+      this.router.navigate(['verify-email-address']);
+    });
+  }
+
 // Sign out
   SignOut() {
     return this.afAuth.auth.signOut().then(() => {
@@ -102,25 +110,12 @@ export class AuthService {
     });
   }
 
-  SendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification().then(() => {
-      this.router.navigate(['verify-email-address']);
-    });
-  }
-
-  // Reset Forggot password
-  ForgotPassword(passwordResetEmail) {
-    return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
-      }).catch((error) => {
-        window.alert(error);
-      });
-  }
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    return (this.userData !== null)?true:false;
+    const user = JSON.parse(localStorage.getItem('user'));
+    return (user !== null && (user.emailVerified !== false || user.providerData[0].providerId==='github.com')) ? true : false;
   }
+
 
 }

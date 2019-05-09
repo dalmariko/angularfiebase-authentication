@@ -12,13 +12,14 @@ body {
 
 .userData img {
   width: 5rem;
-  height: auto;
+  height: 5rem;
   margin: 5px;
+  object-fit:cover;
 }
 
 .userData p {
-  font-size: .8rem;
   margin-bottom: 5px;
+  font-size: .8rem;
 }
 
 .userData button {

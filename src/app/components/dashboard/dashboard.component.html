@@ -6,8 +6,8 @@
            src="{{(user.photoURL) ? user.photoURL : '/assets/HdosC58.jpg'}}"
            alt="{{user.displayName}}">
 
-      <p>Hello: <strong>{{(user.displayName) ? user.displayName : 'dear user'}}</strong></p>
-      <p>Email: <strong>{{user.email}}</strong></p>
+      <p><strong>{{(user.displayName) ? user.displayName : 'dear user'}}</strong></p>
+      <p><strong>{{user.email}}</strong></p>
 
       <button class="btn  btn-outline-danger" type="submit" (click)="authService.SignOut()">Log out</button>
 
