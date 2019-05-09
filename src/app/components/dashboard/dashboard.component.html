@@ -1,47 +1,21 @@
 <div class="container-fluid">
   <div class="row">
+    <div class="userData col-2" *ngIf="authService.userData as user">
 
-        <ul class="nav flex-column">
+      <img class="rounded-circle"
+           src="{{(user.photoURL) ? user.photoURL : '/assets/HdosC58.jpg'}}"
+           alt="{{user.displayName}}">
 
-          <li class="nav-item">
-            <a class="nav-link active">
-              <i class="fas fa-user"></i>User Profile
-            </a>
-          </li>
+      <p>Hello: <strong>{{(user.displayName) ? user.displayName : 'dear user'}}</strong></p>
+      <p>Email: <strong>{{user.email}}</strong></p>
 
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
-          </li>
+      <button class="btn  btn-outline-danger" type="submit" (click)="authService.SignOut()">Log out</button>
 
-        </ul>
+    </div>
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
-        </div>
-
-
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
-            <div class="media">
-              <img class="align-self-start mr-3  rounded-circle"
-                   src="{{(user.photoURL) ? user.photoURL : '/assets/HdosC58.jpg'}}"
-                   alt="{{user.displayName}}">
-              <div class="media-body">
-                <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'dear user'}}</strong></h1>
-                <p>Email: <strong>{{user.email}}</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+    <main class="col-10">
+      <iframe src="https://dalmariko.github.io/myresume/" ></iframe>
     </main>
-
 
   </div>
 </div>
