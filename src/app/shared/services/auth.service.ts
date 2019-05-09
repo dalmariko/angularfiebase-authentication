@@ -10,8 +10,7 @@ import {Router} from '@angular/router';
 })
 
 export class AuthService {
-  userData: any;
-
+  userData:any;
   // Save logged in user data
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -121,7 +120,7 @@ export class AuthService {
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    return (this.userData !== null) ? true :false ;
+    return (this.userData !== null)?true:false;
   }
 
 }
