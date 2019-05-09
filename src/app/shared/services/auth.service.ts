@@ -66,18 +66,7 @@ export class AuthService {
 
   // Sign in with Github
   GithubAuth() {
-    return this.afAuth.auth.signInWithRedirect(new auth.GithubAuthProvider()).then(()=>{
-      return this.afAuth.auth.getRedirectResult();
-    })
-      .then((result) => {
-        this.SetUserDataGithub(result.user);
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-      }).catch((error) => {
-        window.alert(error);
-      });
-
+    return this.AuthLogin(new auth.GithubAuthProvider());
   }
 
 // Auth logic to run auth providers
@@ -86,10 +75,10 @@ export class AuthService {
       return this.afAuth.auth.getRedirectResult();
     })
       .then((result) => {
-        this.SetUserData(result.user);
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
-        });
+      });
+        this.SetUserData(result.user);
       }).catch((error) => {
         window.alert(error);
       });
@@ -103,20 +92,6 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
-    };
-    return userRef.set(userData, {
-      merge: true
-    });
-  }
-
-  SetUserDataGithub(user) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: true
     };
     return userRef.set(userData, {
       merge: true
@@ -137,7 +112,6 @@ export class AuthService {
     });
   }
 
-
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
     return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
@@ -148,11 +122,10 @@ export class AuthService {
       });
   }
 
-
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return (user !== null) ? true : false;
   }
 
 }
