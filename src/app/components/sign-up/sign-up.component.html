@@ -1,33 +1,33 @@
 <div class="sign">
 
 
-  <h1>Please sign Up</h1>
+    <h1>Please sign Up</h1>
 
-  <input type="email" class="form-control" placeholder="Email address" #userMAil required autofocus>
-  <input type="password" class="form-control" placeholder="Password" #userPassword required>
+    <input type="email" class="form-control" placeholder="Email address" #userMAil required autofocus>
+    <input type="password" class="form-control" placeholder="Password" #userPassword required>
 
-  <div>
-    <button class="btn btn-lg btn-primary " type="submit"
-            (click)="authService.SignUp(userMAil.value, userPassword.value)">Sign Up
+    <div>
+      <button class="btn btn-lg btn-primary " type="submit"
+              (click)="authService.SignUp(userMAil.value, userPassword.value)">Sign Up
+      </button>
+
+      <button class="btn btn-lg btn-success " type="submit" routerLink="/sign-in">Sign In</button>
+    </div>
+
+    <span>Or register with servises</span>
+
+    <div>
+      <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+        <i class="fab fa-google-plus-g"></i>
+      </button>
+
+      <button type="button" class="btn googleBtn" (click)="authService.GithubAuth()">
+        <i class="fab fa-github"></i>
+      </button>
+    </div>
+
+    <button class="btn btn-lg  btn-outline-secondary" type="submit" routerLink="/forgot-password">Forgot Password?
     </button>
 
-    <button class="btn btn-lg btn-success " type="submit" routerLink="/sign-in">Log In</button>
+
   </div>
-
-  <span>Or register with servises</span>
-
-  <div>
-    <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-      <i class="fab fa-google-plus-g"></i>
-    </button>
-
-    <button type="button" class="btn googleBtn" (click)="authService.GithubAuth()">
-      <i class="fab fa-github"></i>
-    </button>
-  </div>
-
-  <button class="btn btn-lg  btn-outline-secondary" type="submit" routerLink="/forgot-password">Forgot Password?
-  </button>
-
-
-</div>

@@ -12,6 +12,10 @@ body {
   align-items: center;
 }
 
+.sign h1{
+  font-size: 2rem;
+}
+
 
 .sign input {
   margin: 5px;
