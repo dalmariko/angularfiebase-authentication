@@ -23,12 +23,11 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userData=JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        this.userData=JSON.parse(localStorage.getItem('user'));
       }
     });
   }
@@ -71,14 +70,12 @@ export class AuthService {
 
 // Auth logic to run auth providers
   AuthLogin(provider) {
-    return this.afAuth.auth.signInWithRedirect(provider).then(()=>{
+    return this.afAuth.auth.signInWithRedirect(provider).then(() => {
       return this.afAuth.auth.getRedirectResult();
     })
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-      });
         this.SetUserData(result.user);
+        this.router.navigate(['dashboard']);
       }).catch((error) => {
         window.alert(error);
       });
@@ -124,8 +121,7 @@ export class AuthService {
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null) ? true : false;
+    return (this.userData !== null) ? true :false ;
   }
 
 }
