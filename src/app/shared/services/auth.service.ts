@@ -116,14 +116,28 @@ export class AuthService {
       .then(() => {
         window.alert('Password reset email sent, check your inbox.');
       }).catch((error) => {
-        window.alert(error)
-      })
+        window.alert(error);
+      });
   }
+
+  RestartPage():Promise<void | never> {
+    return Promise.resolve(window.location.reload()).then(
+      () => {
+        this.ngZone.run(() => {
+          this.router.navigate(['dashboard']);
+        });
+      }
+    ).catch((error) => {
+      window.alert(error);
+    });
+
+  }
+
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && (user.emailVerified !== false || user.providerData[0].providerId==='github.com')) ? true : false;
+    let user = JSON.parse(localStorage.getItem('user'));
+    return (user !== null && (user.emailVerified !== false || user.providerData[0].providerId === 'github.com')) ? true : false;
   }
 
 

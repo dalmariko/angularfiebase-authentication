@@ -12,6 +12,8 @@
     Resend Verification Email
   </button>
 
-  <button class="btn btn-sm btn-success btn-block" type="button" routerLink="/sign-in">Sign In</button>
+  <button class="btn btn-sm btn-success btn-block" type="button"
+          (click)="authService.RestartPage()" >Sign In
+  </button>
 
 </div>

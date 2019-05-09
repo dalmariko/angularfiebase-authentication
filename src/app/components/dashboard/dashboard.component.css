@@ -10,6 +10,10 @@ body {
   align-items: center;
 }
 
+* [class*="col"] {
+  padding: 0;
+}
+
 .userData img {
   width: 5rem;
   height: 5rem;
@@ -19,7 +23,7 @@ body {
 
 .userData p {
   margin-bottom: 5px;
-  font-size: .8rem;
+  font-size: 1vw;
 }
 
 .userData button {
