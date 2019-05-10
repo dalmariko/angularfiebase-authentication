@@ -3,7 +3,7 @@
     <div class="userData col-2" *ngIf="authService.userData as user">
 
       <img class="rounded-circle"
-           src="{{(user.photoURL) ? user.photoURL : '/assets/HdosC58.jpg'}}"
+           src="{{(user.photoURL) ? user.photoURL : '../../assets/HdosC58.jpg'}}"
            alt="{{user.displayName}}">
 
       <p><strong>{{(user.displayName) ? user.displayName : 'dear user'}}</strong></p>
